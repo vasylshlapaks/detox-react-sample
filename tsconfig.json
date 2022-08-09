@@ -1,0 +1,15 @@
+// prettier-ignore
+{
+  "extends": "@tsconfig/react-native/tsconfig.json",     /* Recommended React Native TSConfig base */
+  "compilerOptions": {
+    "allowJs": true,
+    "skipLibCheck": true,
+    "lib": ["es2015"],
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "jsx": "react-native",
+    "strict": true,
+    "moduleResolution": "node"
+  },
+  "exclude": ["e2e", "node_modules"]
+}
