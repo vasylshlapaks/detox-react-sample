@@ -4,6 +4,8 @@ const {
   WorkerAssignReporter,
 } = require('detox/runners/jest-circus');
 
+const AllureReporter = require('./reporters/allureReporter');
+
 class CustomDetoxEnvironment extends DetoxCircusEnvironment {
   constructor(config, context) {
     super(config, context);
@@ -15,6 +17,7 @@ class CustomDetoxEnvironment extends DetoxCircusEnvironment {
     // This is strictly optional.
     this.registerListeners({
       SpecReporter,
+      AllureReporter,
       WorkerAssignReporter,
     });
   }

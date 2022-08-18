@@ -1,24 +1,22 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
-
-import React, {type PropsWithChildren} from 'react';
+import * as React from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
   View,
+  Text,
+  Button,
+  TouchableOpacity,
+  TextInput,
+  StyleSheet,
+  useColorScheme,
+  SafeAreaView,
+  StatusBar,
+  ScrollView,
 } from 'react-native';
-
+import {NavigationContainer} from '@react-navigation/native';
+import {
+  createNativeStackNavigator,
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
+import {PropsWithChildren, useState} from 'react';
 import {
   Colors,
   DebugInstructions,
@@ -26,6 +24,14 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+
+type RootStackParamList = {
+  Home: undefined;
+  Details: undefined;
+  Scrollable: undefined;
+};
+
+type Props = NativeStackScreenProps<RootStackParamList>;
 
 const Section: React.FC<
   PropsWithChildren<{
@@ -57,9 +63,8 @@ const Section: React.FC<
   );
 };
 
-const App = () => {
+function ScrollableScreen({navigation}: Props) {
   const isDarkMode = useColorScheme() === 'dark';
-
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
@@ -68,6 +73,7 @@ const App = () => {
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <ScrollView
+        testID="scrollView"
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
         <Header />
@@ -90,10 +96,77 @@ const App = () => {
           </Section>
           <LearnMoreLinks />
         </View>
+        <Button
+          testID="goToHomeScreenButton"
+          title="Go to HomeScreen"
+          onPress={() => navigation.navigate('Home')}
+        />
       </ScrollView>
     </SafeAreaView>
   );
-};
+}
+
+function HomeScreen({navigation}: Props) {
+  const [text, setText] = useState('');
+
+  return (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Text>Home Screen</Text>
+      <Button
+        testID="goToDetailsButton"
+        title="Go to Details"
+        onPress={() => navigation.navigate('Details')}
+      />
+      <Button
+        testID="goToDetailsButton"
+        title="Go to ScrollableScreen"
+        onPress={() => navigation.navigate('Scrollable')}
+      />
+
+      <TextInput
+        testID="inputTextField"
+        style={{height: 40}}
+        placeholder="Type here"
+        onChangeText={newText => setText(newText)}
+        defaultValue={text}
+      />
+    </View>
+  );
+}
+
+function DetailsScreen({navigation}: Props) {
+  const [count, setCount] = useState(0);
+
+  return (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Text>Details Screen</Text>
+      <Button
+        testID="goToHomeScreenButton"
+        title="Go to HomeScreen"
+        onPress={() => navigation.navigate('Home')}
+      />
+
+      <TouchableOpacity testID="buttonClickMe" onPress={() => {setCount(count + 1)}}>
+        <Text>Click me</Text>
+      </TouchableOpacity>
+      <Text testID="clickedNumberText">You clicked me {count} times</Text>
+    </View>
+  );
+}
+
+const Stack = createNativeStackNavigator();
+
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Details" component={DetailsScreen} />
+        <Stack.Screen name="Scrollable" component={ScrollableScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
 
 const styles = StyleSheet.create({
   sectionContainer: {
