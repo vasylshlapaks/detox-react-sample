@@ -1,6 +1,7 @@
 import Detox from 'detox';
 
 export class AppScreen {
+  readonly goToHomeScreenButton = element(by.id('goToHomeScreenButton'));
   readonly scrollableBackgroundView = 'scrollView';
 
   async scrollToElement(element: Detox.NativeElement, direction: Detox.Direction = 'down', scrollableElement: string = this.scrollableBackgroundView) {

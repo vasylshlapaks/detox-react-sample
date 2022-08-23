@@ -118,15 +118,15 @@ function HomeScreen({navigation}: Props) {
         onPress={() => navigation.navigate('Details')}
       />
       <Button
-        testID="goToDetailsButton"
+        testID="goToScrollableScreenButton"
         title="Go to ScrollableScreen"
         onPress={() => navigation.navigate('Scrollable')}
       />
 
       <TextInput
-        testID="inputTextField"
+        testID="nameInputField"
         style={{height: 40}}
-        placeholder="Type here"
+        placeholder="Type Name here"
         onChangeText={newText => setText(newText)}
         defaultValue={text}
       />
@@ -146,7 +146,7 @@ function DetailsScreen({navigation}: Props) {
         onPress={() => navigation.navigate('Home')}
       />
 
-      <TouchableOpacity testID="buttonClickMe" onPress={() => {setCount(count + 1)}}>
+      <TouchableOpacity testID="clickMeButton" onPress={() => {setCount(count + 1)}}>
         <Text>Click me</Text>
       </TouchableOpacity>
       <Text testID="clickedNumberText">You clicked me {count} times</Text>
