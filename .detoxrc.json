@@ -37,5 +37,12 @@
       "device": "emulator",
       "app": "android"
     }
+  },
+  "artifacts": {
+    "rootDir": "./e2e/test-artifacts",
+    "plugins": {
+      "screenshot": {"enabled": true},
+      "log": {"enabled": true}
+    }
   }
 }

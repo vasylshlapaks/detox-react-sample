@@ -14,7 +14,7 @@ export class AllureReporterCircus {
     this.allure = new Allure();
     this.detox = detox;
 
-    this.allure.setOptions({ targetDir: 'e2e/test-results' });
+    this.allure.setOptions({ targetDir: 'e2e/allure-results' });
   }
 
   run_describe_start(event: Circus.Event) {
