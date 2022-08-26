@@ -34,6 +34,6 @@ describe('Sample app tests', () => {
     await homeScreen.tapGoToDetailsButton();
     await detailsScreen.tapClickMeButton();
 
-    await expect(detailsScreen.clickedTimesText).toHaveText('You clicked me 1 time');
+    await expect(detailsScreen.clickedTimesText).toHaveText('You clicked me 1 times');
   });
 });
