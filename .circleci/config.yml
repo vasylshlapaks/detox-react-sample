@@ -1,1 +1,24 @@
 version: 2.1
+
+jobs:
+  build: # name of your job
+    macos: # executor type
+      xcode: 13.2.1
+
+    steps:
+      - checkout
+      - run:
+          name: Install JS dependencies
+          command: yarn install
+      - run:
+          name: Install iOS dependencies
+          command: cd ios && pod install
+      - run:
+          name: Build app
+          command: detox build --configuration ios
+      - run:
+          name: Run Detox tests
+          command: detox test --configuration ios
+
+
+
