@@ -16,11 +16,9 @@ jobs:
       - run:
           name: Install tools for Detox work
           command: brew tap wix/brew && brew install applesimutils
-
-   #   - run:
-   #       name: Install iOS dependencies
-   #       command: cd ios && pod install
-
+      - run:
+          name: Install iOS dependencies
+          command: cd ios && pod install
       - run:
           name: Build app
           command: detox build --configuration ios
