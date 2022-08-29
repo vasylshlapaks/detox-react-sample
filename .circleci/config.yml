@@ -38,7 +38,7 @@ jobs:
           command: yarn install
       - run:
           name: Install CLI
-          command: npm install -g detox-cli && envinfo
+          command: npm install detox-cli && envinfo
       - run:
           name: Show list of system-images
           command: sdkmanager --list --verbose | grep system-images
