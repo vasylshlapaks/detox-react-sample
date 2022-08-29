@@ -1,8 +1,8 @@
 version: 2.1
 
 jobs:
-  build: # name of your job
-    macos: # executor type
+  build_ios:
+    macos:
       xcode: 13.2.1
 
     steps:
@@ -21,10 +21,48 @@ jobs:
           command: cd ios && pod install
       - run:
           name: Build app
-          command: detox build --configuration ios
+          command: detox build -c ios
       - run:
           name: Run Detox tests
-          command: detox test --configuration ios
+          command: detox test -c ios
+
+  build_android:
+    docker:
+      - image: circleci/android:api-29-alpha
+    environment:
+      JVM_OPTS: -Xmx3200m
+    steps:
+      - checkout
+      - run:
+          name: Install JS dependencies
+          command: yarn install
+      - run:
+          name: Install CLI
+          command: npm install -g detox-cli && envinfo
+      - run:
+          name: Show list of system-images
+          command: sdkmanager --list --verbose | grep system-images
+      - run:
+          name: Setup emulator
+          command: sdkmanager "system-images;android-29;default;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-29;default;armeabi-v7a"
+      - run:
+          name: Launch emulator
+          command: |
+            cd ${ANDROID_HOME}/emulator;ls
+            export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib
+            emulator -avd test -no-window -noaudio -no-boot-anim -no-window -accel on
+          background: true
+      - run:
+          name: Wait emulator
+          command: |
+            circle-android wait-for-boot
+            adb shell input keyevent 82
+      - run:
+          name: Build app
+          command: detox build -c android
+      - run:
+          name: Run Detox tests
+          command: detox test -c android --headless
 
 
 
