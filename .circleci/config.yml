@@ -9,7 +9,7 @@ jobs:
       - checkout
       - run:
           name: Install JS dependencies
-          command: npm install
+          command: yarn install
       - run:
           name: Install CLI
           command: npm install -g detox-cli
@@ -35,7 +35,7 @@ jobs:
       - checkout
       - run:
           name: Install JS dependencies
-          command: yarn install
+          command: npm install
       - run:
           name: Install CLI
           command: sudo npm install -g detox-cli
