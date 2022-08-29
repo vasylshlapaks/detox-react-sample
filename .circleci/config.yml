@@ -24,7 +24,11 @@ jobs:
           command: detox build -c ios
       - run:
           name: Run Detox tests
-          command: detox test -c ios
+          command: detox test -c ios --cleanup
+      - store_artifacts:
+          path: ./e2e/test-artifacts
+      - store_artifacts:
+          path: ./e2e/allure-results
 
   build:
     machine:
@@ -38,7 +42,7 @@ jobs:
           command: npm install
       - run:
           name: Install CLI
-          command: npm install -g detox-cli
+          command: npm install -g detox-cli react-native-cli
       - run:
           name: Show list of system-images
           command: sdkmanager --list --verbose | grep system-images
@@ -60,7 +64,11 @@ jobs:
           command: detox build -c android
       - run:
           name: Run Detox tests
-          command: detox test -c android --headless
+          command: detox test -c android --headless --cleanup
+      - store_artifacts:
+          path: ./e2e/test-artifacts
+      - store_artifacts:
+          path: ./e2e/allure-results
 
 
 
