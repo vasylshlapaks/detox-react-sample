@@ -64,7 +64,7 @@ jobs:
           command: detox build -c android
       - run:
           name: Run Detox tests
-          command: detox test -c android --headless --cleanup
+          command: detox test -c android --headless
       - store_artifacts:
           path: ./e2e/test-artifacts
       - store_artifacts:

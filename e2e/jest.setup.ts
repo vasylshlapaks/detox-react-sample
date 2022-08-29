@@ -1,4 +1,4 @@
-jest.setTimeout(1600 * 1000);
+jest.setTimeout(600 * 1000);
 jest.retryTimes(0);
 
 beforeEach(async () => {
