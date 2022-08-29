@@ -54,10 +54,10 @@ jobs:
           background: true
       - run:
           name: Build app
-          command: detox build -c android
+          command: npx run detox build -c android
       - run:
           name: Run Detox tests
-          command: detox test -c android --headless
+          command: npx run detox test -c android --headless
 
 
 
