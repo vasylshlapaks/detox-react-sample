@@ -38,7 +38,7 @@ jobs:
           command: yarn install
       - run:
           name: Install CLI
-          command: npm install detox-cli
+          command: sudo npm install -g detox-cli
       - run:
           name: Show list of system-images
           command: sdkmanager --list --verbose | grep system-images
@@ -54,10 +54,10 @@ jobs:
           background: true
       - run:
           name: Build app
-          command: npx run detox build -c android
+          command: detox build -c android
       - run:
           name: Run Detox tests
-          command: npx run detox test -c android --headless
+          command: detox test -c android --headless
 
 
 
