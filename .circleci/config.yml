@@ -44,13 +44,13 @@ jobs:
           command: sdkmanager --list --verbose | grep system-images
       - run:
           name: Setup emulator
-          command: sdkmanager "system-images;android-29;default;x86" && echo "no" | avdmanager create avd -n test -k "system-images;android-29;default;x86"
+          command: sdkmanager "system-images;android-29;default;x86" && echo "no" | avdmanager create avd -n Pixel_2_API_29 -k "system-images;android-29;default;x86"
       - run:
           name: Launch emulator
           command: |
             cd ${ANDROID_HOME}/emulator;ls
             export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib
-            emulator -avd test -no-window -noaudio -no-boot-anim -no-window -accel on
+            emulator -avd Pixel_2_API_29 -no-window -noaudio -no-boot-anim -no-window -accel on
           background: true
       - run:
           name: Wait for emulator to start
