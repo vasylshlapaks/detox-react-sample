@@ -28,7 +28,7 @@ jobs:
 
   build:
     docker:
-      - image: circleci/android:api-29-node
+      - image: cimg/android:2022.01.1-node
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
@@ -44,7 +44,7 @@ jobs:
           command: sdkmanager --list --verbose | grep system-images
       - run:
           name: Setup emulator
-          command: sdkmanager "system-images;android-21;default;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-21;default;armeabi-v7a"
+          command: sdkmanager "system-images;android-23;default;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-23;default;armeabi-v7a"
       - run:
           name: Launch emulator
           command: |
