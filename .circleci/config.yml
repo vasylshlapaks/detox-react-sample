@@ -38,7 +38,7 @@ jobs:
           command: npm install
       - run:
           name: Install CLI
-          command: sudo npm install -g detox-cli
+          command: npm install -g detox-cli
       - run:
           name: Show list of system-images
           command: sdkmanager --list --verbose | grep system-images
