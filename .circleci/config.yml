@@ -1,15 +1,9 @@
 version: 2.1
 
-orbs:
-  node: circleci/node@4.7.0
-  android: circleci/android@1.0.3
-  rn: react-native-community/react-native@7.1.1
-
 jobs:
   build_ios:
-    executor:
-      name: rn/macos
-      xcode_version: 13.2.1
+    macos:
+      xcode: 13.2.1
 
     steps:
       - checkout
@@ -37,31 +31,29 @@ jobs:
           path: ./e2e/allure-results
 
   build:
-    executor:
-      name: android/android-machine
-      resource-class: large
+    machine:
+      image: android:202102-01
     steps:
       - checkout
-      - node/install-yarn
+      - run:
+          name: Install Yarn
+          command: npm install yarn -g
       - run:
           name: Install JS dependencies
-          command: rn/yarn_install
+          command: yarn install
       - run:
           name: Install CLI
           command: npm install -g detox-cli react-native-cli
-
-     # - run:
-     #     name: Setup emulator
-     #     command: sdkmanager "system-images;android-29;default;x86" && echo "no" | avdmanager create avd -n Pixel_2_API_29 -k "system-images;android-29;default;x86"
-     # - run:
-      #    name: Launch emulator
-     #     command: |
-     #       cd ${ANDROID_HOME}/emulator;ls
-     #       export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib
-     #       emulator -avd Pixel_2_API_29 -no-window -noaudio -no-boot-anim -no-window -accel on
-     #     background: true
-      - rn/android_emulator_start:
-          device_name: Pixel_2_API_29_x86
+      - run:
+          name: Setup emulator
+          command: sdkmanager "system-images;android-29;default;x86" && echo "no" | avdmanager create avd -n Pixel_2_API_29 -k "system-images;android-29;default;x86"
+      - run:
+          name: Launch emulator
+          command: |
+            cd ${ANDROID_HOME}/emulator;ls
+            export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib
+            emulator -avd Pixel_2_API_29 -no-window -noaudio -no-boot-anim -no-window -accel on
+          background: true
       - run:
           name: Wait for emulator to start
           command: circle-android wait-for-boot
