@@ -32,7 +32,7 @@ jobs:
 
   build:
     machine:
-      image: android:202208-01
+      image: android:202204-01
     steps:
       - checkout
       - run:
