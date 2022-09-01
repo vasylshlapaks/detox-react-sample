@@ -19,8 +19,9 @@ commands:
   detox_build_android:
     steps:
       - android/restore-gradle-cache
-      - run: |
-          detox build -c android
+      - run:
+          name: Build Android app
+          command: detox build -c android
       - android/save-gradle-cache
 
 jobs:
