@@ -2,6 +2,27 @@ version: 2.1
 orbs:
   android: circleci/android@2.1.2
 
+commands:
+  detox_build_ios:
+    steps:
+      - restore_cache:
+          keys:
+            - ios-build-cache-{{ arch }}-{{ checksum "~/.tmp/checksumfiles/package.json" }}
+      - run: |
+          npm install -g detox-cli react-native-cli
+          detox build --configuration ios
+      - save_cache:
+          key: ios-build-cache-{{ arch }}-{{ checksum "~/.tmp/checksumfiles/package.json" }}
+          paths:
+            - ios/build/Build
+
+  detox_build_android:
+    steps:
+      - android/restore-gradle-cache
+      - run: |
+          detox build -c android
+      - android/save-gradle-cache
+
 jobs:
   build_ios:
     macos:
@@ -52,26 +73,19 @@ jobs:
           avd-name: Pixel_2_API_29
           system-image: system-images;android-29;default;x86
           install: true
-      - android/start-emulator:
-          avd-name: Pixel_2_API_29
-          no-window: true
-          restore-gradle-cache-prefix: v1a
-
-      #- run:
-       #   name: Launch Emulator
-        #  command: |
-         #   cd ${ANDROID_HOME}/emulator;ls
-          #  export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib
-          #  emulator -avd Pixel_2_API_29 -no-window -noaudio -no-boot-anim -no-window -accel on
-          #background: true
+      - run:
+          name: Launch Emulator
+          command: |
+            cd ${ANDROID_HOME}/emulator;ls
+            export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib
+            emulator -avd Pixel_2_API_29 -no-window -noaudio -no-boot-anim -no-window -accel on
+          background: true
       - run:
           name: Wait for emulator to start
           command: circle-android wait-for-boot
       - run:
           name: Build app
-          command: detox build -c android
-      - android/save-gradle-cache:
-          cache-prefix: v1a
+          command: detox_build_android
       - run:
           name: Run Detox tests
           command: detox test -c android --headless
