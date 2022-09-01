@@ -52,9 +52,13 @@ jobs:
           avd-name: Pixel_2_API_29
           system-image: system-images;android-29;default;x86
           install: true
-      - android/start-emulator:
-          avd-name: Pixel_2_API_29
-          no-window: true
+      - run:
+          name: Launch Emulator
+          command: |
+            cd ${ANDROID_HOME}/emulator;ls
+            export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib
+            emulator -avd Pixel_2_API_29 -no-window -noaudio -no-boot-anim -no-window -accel on
+          background: true
       - run:
           name: Wait for emulator to start
           command: circle-android wait-for-boot
