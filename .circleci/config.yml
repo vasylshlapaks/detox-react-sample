@@ -83,9 +83,7 @@ jobs:
       - run:
           name: Wait for emulator to start
           command: circle-android wait-for-boot
-      - run:
-          name: Build app
-          command: detox_build_android
+      - detox_build_android
       - run:
           name: Run Detox tests
           command: detox test -c android --headless
