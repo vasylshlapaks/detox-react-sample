@@ -8,9 +8,9 @@ commands:
       - restore_cache:
           keys:
             - ios-build-cache-{{ arch }}-{{ checksum "~/.tmp/checksumfiles/package.json" }}
-      - run: |
-          npm install -g detox-cli react-native-cli
-          detox build --configuration ios
+      - run:
+          name: Build iOS app
+          command: detox build -c ios
       - save_cache:
           key: ios-build-cache-{{ arch }}-{{ checksum "~/.tmp/checksumfiles/package.json" }}
           paths:
@@ -25,7 +25,7 @@ commands:
       - android/save-gradle-cache
 
 jobs:
-  build_ios:
+  test_ios:
     macos:
       xcode: 13.2.1
 
@@ -43,9 +43,7 @@ jobs:
       - run:
           name: Install iOS dependencies
           command: cd ios && pod install
-      - run:
-          name: Build app
-          command: detox build -c ios
+      - detox_build_ios
       - run:
           name: Run Detox tests
           command: detox test -c ios --cleanup
@@ -54,7 +52,7 @@ jobs:
       - store_artifacts:
           path: ./e2e/allure-results
 
-  build:
+  test_android:
     executor:
       name: android/android-machine
       tag: 2022.08.1
@@ -93,5 +91,9 @@ jobs:
       - store_artifacts:
           path: ./e2e/allure-results
 
-
+workflows:
+  test_and_distribute:
+    jobs:
+      - test_ios
+      - test_android
 
