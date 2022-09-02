@@ -37,6 +37,7 @@ jobs:
   test_ios:
     macos:
       xcode: 13.2.1
+    resource-class: large
 
     steps:
       - checkout
