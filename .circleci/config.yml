@@ -37,7 +37,6 @@ jobs:
   test_ios:
     macos:
       xcode: 13.2.1
-    resource_class: large
 
     steps:
       - checkout
@@ -77,7 +76,7 @@ jobs:
           name: Install JS dependencies
           command: yarn install
       - run:
-          name: Install CLI 
+          name: Install CLI
           command: npm install -g detox-cli react-native-cli
       - save_cache:
           paths:
