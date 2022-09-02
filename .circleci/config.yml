@@ -77,7 +77,7 @@ jobs:
           name: Install JS dependencies
           command: yarn install
       - run:
-          name: Install CLI
+          name: Install CLI 
           command: npm install -g detox-cli react-native-cli
       - save_cache:
           paths:
