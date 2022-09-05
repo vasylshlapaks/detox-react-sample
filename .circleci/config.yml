@@ -5,6 +5,11 @@ orbs:
 commands:
   detox_build_ios:
     steps:
+      - run:
+          name: Clear Detox cache
+          command: |
+            detox clean-framework-cache
+            detox build-framework-cache
       - restore_cache:
           key: 1-pods-{{ checksum "package.json" }}
       - run:
