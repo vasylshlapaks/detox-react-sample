@@ -52,16 +52,9 @@ jobs:
           paths:
             - node_modules
           key: dependencies-{{ checksum "yarn.lock" }}
-      - restore_cache:
-          key: brew-applesimutils
       - run:
           name: Install tools for Detox work
           command: brew tap wix/brew && brew install applesimutils
-      - save_cache:
-          key: brew-applesimutils
-          paths:
-            - /Users/distiller/Library/Caches/Homebrew
-            - /usr/local/Homebrew
       - detox_build_ios
       - run:
           name: Run Detox tests
