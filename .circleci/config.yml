@@ -14,16 +14,16 @@ commands:
           key: 1-pods-{{ checksum "ios/Podfile.lock" }}
           paths:
             - ./ios/Pods
-      - restore_cache:
-          keys:
-            - ios-build-cache-{{ arch }}-{{ checksum "package.json" }}
-      - run:
-          name: Build iOS app
-          command: detox build -c ios
-      - save_cache:
-          key: ios-build-cache-{{ arch }}-{{ checksum "package.json" }}
-          paths:
-            - ios/build/Build
+    #  - restore_cache:
+    #      keys:
+    #        - ios-build-cache-{{ arch }}-{{ checksum "package.json" }}
+    #  - run:
+    #      name: Build iOS app
+    #      command: detox build -c ios
+    #  - save_cache:
+    #      key: ios-build-cache-{{ arch }}-{{ checksum "package.json" }}
+    #      paths:
+    #        - ios/build/Build
 
   detox_build_android:
     steps:
@@ -62,7 +62,6 @@ jobs:
           paths:
             - /Users/distiller/Library/Caches/Homebrew
             - /usr/local/Homebrew
-
       - detox_build_ios
       - run:
           name: Run Detox tests
