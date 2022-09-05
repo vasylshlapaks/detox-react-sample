@@ -45,9 +45,9 @@ jobs:
           paths:
             - node_modules
           key: dependencies-{{ checksum "yarn.lock" }}
-   #   - run:
-   #       name: Install tools for Detox work
-   #       command: brew tap wix/brew && brew install applesimutils
+      - run:
+          name: Install tools for Detox work
+          command: brew tap wix/brew && brew install applesimutils
       - detox_build_ios
       - run:
           name: Run Detox tests
