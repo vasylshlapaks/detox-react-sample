@@ -14,16 +14,9 @@ commands:
           key: 1-pods-{{ checksum "ios/Podfile" }}
           paths:
             - ./ios/Pods
-    #  - restore_cache:
-    #      keys:
-    #        - ios-build-cache-{{ arch }}-{{ checksum "package.json" }}
-    #  - run:
-    #      name: Build iOS app
-    #      command: detox build -c ios
-    #  - save_cache:
-    #      key: ios-build-cache-{{ arch }}-{{ checksum "package.json" }}
-    #      paths:
-    #        - ios/build/Build
+      - run:
+          name: Build iOS app
+          command: detox build -c ios
 
   detox_build_android:
     steps:
@@ -52,9 +45,9 @@ jobs:
           paths:
             - node_modules
           key: dependencies-{{ checksum "yarn.lock" }}
-      - run:
-          name: Install tools for Detox work
-          command: brew tap wix/brew && brew install applesimutils
+   #   - run:
+   #       name: Install tools for Detox work
+   #       command: brew tap wix/brew && brew install applesimutils
       - detox_build_ios
       - run:
           name: Run Detox tests
