@@ -6,12 +6,12 @@ commands:
   detox_build_ios:
     steps:
       - restore_cache:
-          key: 1-pods-{{ checksum "ios/Podfile.lock" }}
+          key: 1-pods-{{ checksum "ios/Podfile" }}
       - run:
           name: Install iOS dependencies
           command: cd ios && pod install
       - save_cache:
-          key: 1-pods-{{ checksum "ios/Podfile.lock" }}
+          key: 1-pods-{{ checksum "ios/Podfile" }}
           paths:
             - ./ios/Pods
     #  - restore_cache:
