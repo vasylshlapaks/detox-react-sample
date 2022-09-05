@@ -6,12 +6,12 @@ commands:
   detox_build_ios:
     steps:
       - restore_cache:
-          key: 1-pods-{{ checksum "yarn.lock" }}
+          key: 1-pods-{{ checksum "package.json" }}
       - run:
           name: Install iOS dependencies
           command: cd ios && pod install
       - save_cache:
-          key: 1-pods-{{ checksum "yarn.lock" }}
+          key: 1-pods-{{ checksum "package.json" }}
           paths:
             - ./ios/Pods
       - run:
@@ -29,7 +29,7 @@ commands:
   install_npm_dependencies:
     steps:
       - restore_cache:
-          key: dependencies-{{ checksum "yarn.lock" }}
+          key: dependencies-{{ checksum "package.json" }}
       - run:
           name: Install JS dependencies
           command: yarn install
@@ -39,7 +39,7 @@ commands:
       - save_cache:
           paths:
             - node_modules
-          key: dependencies-{{ checksum "yarn.lock" }}
+          key: dependencies-{{ checksum "package.json" }}
 
 jobs:
   test_ios:
