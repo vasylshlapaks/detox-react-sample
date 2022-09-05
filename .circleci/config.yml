@@ -26,10 +26,15 @@ commands:
           command: detox build -c android
       - android/save-gradle-cache
 
-  install_npm_dependencies:
+jobs:
+  test_ios:
+    macos:
+      xcode: 13.2.1
+
     steps:
+      - checkout
       - restore_cache:
-          key: dependencies-{{ checksum "package.json" }}
+          key: dependencies-{{ checksum "yarn.lock" }}
       - run:
           name: Install JS dependencies
           command: yarn install
@@ -39,16 +44,7 @@ commands:
       - save_cache:
           paths:
             - node_modules
-          key: dependencies-{{ checksum "package.json" }}
-
-jobs:
-  test_ios:
-    macos:
-      xcode: 13.2.1
-
-    steps:
-      - checkout
-      - install_npm_dependencies
+          key: dependencies-{{ checksum "yarn.lock" }}
       - run:
           name: Install tools for Detox iOS running
           command: brew tap wix/brew && brew install applesimutils
@@ -68,10 +64,21 @@ jobs:
       resource-class: large
     steps:
       - checkout
+      - restore_cache:
+          key: dependencies-android-{{ checksum "yarn.lock" }}
       - run:
           name: Install Yarn
           command: npm install yarn -g
-      - install_npm_dependencies
+      - run:
+          name: Install JS dependencies
+          command: yarn install
+      - run:
+          name: Install CLI
+          command: npm install -g detox-cli react-native-cli
+      - save_cache:
+          paths:
+            - node_modules
+          key: dependencies-android-{{ checksum "yarn.lock" }}
       - android/create-avd:
           avd-name: Pixel_2_API_29
           system-image: system-images;android-29;default;x86
@@ -94,7 +101,6 @@ jobs:
           path: ./e2e/test-artifacts
       - store_artifacts:
           path: ./e2e/allure-results
-
 workflows:
   build_and_test:
     jobs:
