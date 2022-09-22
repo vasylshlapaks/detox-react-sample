@@ -19,7 +19,9 @@ export class AppScreen {
 
   async enterText(textField: Detox.NativeElement, text: string) {
     await waitFor(textField).toBeVisible().withTimeout(timeouts.mediumTimeout);
+    await textField.clearText();
     await textField.typeText(text);
+    await textField.tapReturnKey();
   }
 
   async tapElement(element: Detox.NativeElement) {
